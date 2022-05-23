@@ -18,6 +18,30 @@
       update_cache: yes
     when: ansible_distribution == "Ubuntu"
 
+- hosts: all
+  become: true
+  tasks: 
+  - name: create simone user
+    tags: always
+    user: 
+      name: simone
+      groups: root
+
+  - name: add ssh key for simone
+    tags: always
+    authorized_key:
+      user: simone
+      key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC+xB+PPC7+PHugX61qKQGFEt27iTTbgiGz/RVBHOS7vWF7Z/y84xdIJlr6kEYMykjeJlDS//2U6IYCkW1AP2Jar7xsDRsAAn0nvuzRKP5/qeVlFq7QFh6RcUtHfeN4KzgdJ0UtKcGtVKX8SQD0OYCf1gYasWhg8dtNcttNIBruMmi0kvJAYwWhRKbtZSQUnySqlDztPCy2VeVO8SPVAFrZA6kugAbsJgj6vtPYw5OmnEOTCoy7IKBmdywW1yJxbu7Z4RlWXx4HybtXn3IvmkIrs4XRo/RQXQgOXked/Vi5C+TwiXpQkty1TGSQK5Qiz8Lkt/HvSDgKfisj8kQNVGyTuGpFfcuufiFIGbx/5vSwBiZDo7V0BVhk670cZo7Sqksuclto/0zTqm/ietl0aRm9lrnOAgDbRYLzAS60OOLCYesQ49TSCgpBiitb1dAcNHuWmDxGkJ72IBN6Koj8m8SWO2lzkyr7GyDS5IFMkp46qE3nbRNl1xjaa0xWXlIqbts= shivankar@shivankar-VirtualBox" 
+  
+  - name: add sudoers file for simone
+    tags: always
+    copy: 
+      src: sudoer_simone
+      dest: /etc/sudoers.d/simone
+      owner: root
+      group: root
+      mode: 0440 
+
 - hosts: workstations
   become: true
   tasks:
